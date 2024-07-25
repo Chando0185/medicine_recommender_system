@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Recommender System</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-control,
+        .btn-primary,
+        .list-group-item {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        .btn-success {
+            background-color: #28a745;
+        }
+        .select2-container--default .select2-selection--single {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        .select2-container--default .select2-results__option {
+            background-color: #333;
+            color: #fff;
+        }
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #444;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medicine Recommender System</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="medicine">Type your medicine name whose alternative is to be recommended</label>
+                <select class="form-control" id="medicine" name="medicine">
+                    {% for medicine in medicines %}
+                        <option value="{{ medicine }}">{{ medicine }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Recommend Medicine</button>
+        </form>
+        <div class="mt-4">
+            {% if recommendations %}
+                <h2>Recommended Medicines for {{ selected_medicine_name }}:</h2>
+                <ul class="list-group">
+                    {% for recommendation in recommendations %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ loop.index }}. {{ recommendation }}</span>
+                            <a href="https://pharmeasy.in/search/all?name={{ recommendation }}" target="_blank" class="btn btn-sm btn-success">Click to Buy</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#medicine').select2({
+                placeholder: 'Select a medicine',
+                allowClear: true
+            });
+        });
+    </script>
+</body>
+</html>
